@@ -1,2 +1,1 @@
-# Jex
-JEX Library written in RUST
+** JEX LIBRARY WRITTEN IN RUST **
