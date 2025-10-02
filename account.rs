@@ -10,8 +10,8 @@ import "github.com/PretendoNetwork/nex-go/v2/types"
 // guest account, an account which represents the authentication server, and one which represents
 // the secure server. See https://nintendo-wiki.pretendo.network/docs/nex/kerberos for more information.
 type Account struct {
-	PID               types.PID // * The PID of the account. PIDs are unique IDs per account. NEX PIDs start at 1800000000 and decrement with each new account.
-	Username          string    // * The username for the account. For NEX user accounts this is the same as the accounts PID.
+	JID               types.JID // * The JID of the account. PIDs are unique IDs per account. NEX PIDs start at 1800000000 and decrement with each new account.
+	Username          string    // * The username for the account. For NEX user accounts this is the same as the accounts JID.
 	Password          string    // * The password for the account. For NEX accounts this is always 16 characters long using seemingly any ASCII character.
 	RequiresTokenAuth bool      // * If the account requires token authentication. Always false for special accounts or user accounts pre-Switch.
 }
@@ -19,9 +19,9 @@ type Account struct {
 // NewAccount returns a new instance of Account.
 // This does not register an account, only creates a new
 // struct instance.
-func NewAccount(pid types.PID, username, password string, requiresTokenAuth bool) *Account {
+func NewAccount(jid types.JID, username, password string, requiresTokenAuth bool) *Account {
 	return &Account{
-		PID:               pid,
+		JID:               jid,
 		Username:          username,
 		Password:          password,
 		RequiresTokenAuth: requiresTokenAuth,
