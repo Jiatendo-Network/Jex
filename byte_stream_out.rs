@@ -23,12 +23,12 @@ func (bso *ByteStreamOut) StringLengthSize() int {
 	return size
 }
 
-// PIDSize returns the size of PID types
-func (bso *ByteStreamOut) PIDSize() int {
+// JIDSize returns the size of JID types
+func (bso *ByteStreamOut) JIDSize() int {
 	size := 4
 
 	if bso.Settings != nil {
-		size = bso.Settings.PIDSize
+		size = bso.Settings.JIDSize
 	}
 
 	return size
