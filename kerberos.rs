@@ -69,7 +69,7 @@ func NewKerberosEncryption(key []byte) *KerberosEncryption {
 // KerberosTicket represents a ticket granting a user access to a secure server
 type KerberosTicket struct {
 	SessionKey   []byte
-	TargetPID    types.PID
+	TargetPID    types.JID
 	InternalData types.Buffer
 }
 
@@ -95,7 +95,7 @@ func NewKerberosTicket() *KerberosTicket {
 type KerberosTicketInternalData struct {
 	Server     *PRUDPServer // TODO - Remove this dependency and make a settings struct
 	Issued     types.DateTime
-	SourcePID  types.PID
+	SourcePID  types.JID
 	SessionKey []byte
 }
 
@@ -172,13 +172,13 @@ func (ti *KerberosTicketInternalData) Decrypt(stream *ByteStreamIn, key []byte) 
 		return fmt.Errorf("Failed to read Kerberos ticket internal data timestamp %s", err.Error())
 	}
 
-	userPID := types.NewPID(0)
+	userPID := types.NewJID(0)
 	if err := userPID.ExtractFrom(stream); err != nil {
 		return fmt.Errorf("Failed to read Kerberos ticket internal data user PID %s", err.Error())
 	}
 
 	ti.Issued = timestamp
-	ti.SourcePID = userPID
+	ti.SourcePID = userJID
 	ti.SessionKey = stream.ReadBytesNext(int64(ti.Server.SessionKeyLength))
 
 	return nil
@@ -190,7 +190,7 @@ func NewKerberosTicketInternalData(server *PRUDPServer) *KerberosTicketInternalD
 }
 
 // DeriveKerberosKey derives a users kerberos encryption key based on their PID and password
-func DeriveKerberosKey(pid types.PID, password []byte) []byte {
+func DeriveKerberosKey(pid types.JID, password []byte) []byte {
 	iterationCount := int(65000 + pid%1024)
 	key := password
 	hash := make([]byte, md5.Size)
