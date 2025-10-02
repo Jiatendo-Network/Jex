@@ -9,7 +9,7 @@ import (
 )
 
 func TestDeriveGuestKey(t *testing.T) {
-	pid := types.NewPID(100)
+	jid := types.NewJID(100)
 	password := []byte("MMQea3n!fsik")
 	result := DeriveKerberosKey(pid, password)
 	assert.Equal(t, "9ef318f0a170fb46aab595bf9644f9e1", hex.EncodeToString(result))
